@@ -9,6 +9,7 @@ use App\Http\Controllers\Web\Backend\CouponSubscriptionController;
 use App\Http\Controllers\Web\Backend\DashboardController;
 use App\Http\Controllers\Web\Backend\InstructorController;
 use App\Http\Controllers\Web\Backend\CourseManagementController;
+use App\Http\Controllers\Web\Backend\ReleasePaymentController;
 use App\Http\Controllers\Web\Backend\RevenueController;
 use App\Http\Controllers\Web\Backend\SubscriptionController;
 use App\Http\Controllers\Web\Backend\WatchTimeController;
@@ -84,4 +85,8 @@ Route::controller(CouponSubscriptionController::class)->group(function () {
     Route::post('/coupon/store', 'store')->name('admin.coupon.store');
     Route::delete('/coupon/{id}/delete', 'destroy')->name('admin.coupon.destroy');
     Route::post('/coupon/status/{id}', 'status')->name('admin.coupon.status');
+});
+
+Route::controller(ReleasePaymentController::class)->group(function () {
+    Route::post('/release/payment', 'index')->name('admin.release.payment');
 });

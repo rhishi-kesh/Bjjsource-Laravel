@@ -39,15 +39,19 @@
 
     <div>
         <a href="{{ route('admin.payments.method.change') }}">
-            <button type="button" class="btn btn-light fixed-width"><i class="fa-solid fa-pen"></i>Change
-                Payment
-                Method</button>
+            <button type="button" class="btn btn-light fixed-width">
+                <i class="fa-solid fa-pen"></i>
+                Change Payment Method
+            </button>
         </a>
     </div>
     <!-- pending payment table  -->
     <div class="se--table--layout">
         <div class="se--table--row1">
             <p class="se--subtext">Pending Payments</p>
+            <button type="button" class="btn btn-danger fixed-width" id="releasePayment"><i
+                    class="fa-solid fa-money-bill"></i> Release
+                Payment</button>
         </div>
         <div class="se-table-container">
             <table class="se-table">
@@ -160,7 +164,9 @@
 @endsection
 
 @push('script')
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+{{-- <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script> --}}
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"
+    integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.min.js"></script>
 <script>
@@ -180,5 +186,72 @@
                 $("#successModal").modal("hide");
             });
         });
+</script>
+<script>
+    $('#releasePayment').on('click', function () {
+
+        Swal.fire({
+            title: "Are you sure?",
+            text: "This action cannot be undone.",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Yes, Release Payment"
+        }).then((result) => {
+
+            if (!result.isConfirmed) return;
+
+            // Disable button to prevent double click
+            $('#releasePayment').prop('disabled', true);
+
+            $.ajax({
+                url: "{{ route('admin.release.payment') }}",
+                type: "POST",
+                data: {
+                    _token: "{{ csrf_token() }}",
+                },
+                beforeSend: function () {
+                    Swal.fire({
+                        title: "Processing...",
+                        text: "Please wait",
+                        icon: "info",
+                        showConfirmButton: false,
+                        allowOutsideClick: false,
+                    });
+                },
+                success: function (response) {
+
+                    if (response.status === 'success') {
+                        Swal.fire(
+                            "Success!",
+                            response.message,
+                            "success"
+                        ).then(() => {
+                            location.reload();
+                        });
+                    } else {
+                        Swal.fire(
+                            "Error!",
+                            response.message || "An error occurred while releasing payment.",
+                            "error"
+                        );
+                    }
+                },
+                error: function (xhr) {
+
+                    Swal.fire(
+                        "Error!",
+                        xhr.responseJSON?.message ?? "An error occurred while releasing payment.",
+                        "error"
+                    );
+
+                    $('#releasePayment').prop('disabled', false);
+                }
+            });
+        });
+    });
+
+
 </script>
 @endpush
