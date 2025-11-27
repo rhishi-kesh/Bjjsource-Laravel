@@ -1,16 +1,19 @@
 {{-- @php
-    $systemSetting = App\Models\SystemSetting::first();
+$systemSetting = App\Models\SystemSetting::first();
 @endphp --}}
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Home</title>
     {{-- FAVICON --}}
-    {{-- <link rel="shortcut icon" type="image/x-icon"
-        href="{{ isset($systemSetting->favicon) && !empty($systemSetting->favicon) ? asset($systemSetting->favicon) : asset('frontend/logo.png') }}" /> --}}
+    {{--
+    <link rel="shortcut icon" type="image/x-icon"
+        href="{{ isset($systemSetting->favicon) && !empty($systemSetting->favicon) ? asset($systemSetting->favicon) : asset('frontend/logo.png') }}" />
+    --}}
     <style>
         * {
             margin: 0;
@@ -30,7 +33,8 @@
         }
 
         body {
-            /* background-image: url('{{ asset('frontend/mockup_image.png') }}'); */ /*For Mockup Uncomment IT*/
+            /* background-image: url('{{ asset('frontend/mockup_image.png') }}'); */
+            /*For Mockup Uncomment IT*/
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
@@ -38,8 +42,9 @@
             text-align: center;
         }
 
-        .Box{
-            display: block; /*For Display None IT*/
+        .Box {
+            display: block;
+            /*For Display None IT*/
         }
 
         .container {
@@ -133,15 +138,15 @@
     </div>
     <div>
         @if (Route::has('login'))
-            @auth
-                <a href="{{ route('admin.dashboard') }}" class="dashboard-btn">
-                    Dashboard
-                </a>
-            @else
-                <a href="{{ route('login') }}" class="login-btn">
-                    Log in
-                </a>
-            @endauth
+        @auth
+        <a href="{{ route('admin.dashboard') }}" class="dashboard-btn">
+            Dashboard
+        </a>
+        @else
+        <a href="{{ route('login') }}" class="login-btn">
+            Log in
+        </a>
+        @endauth
         @endif
     </div>
 </body>

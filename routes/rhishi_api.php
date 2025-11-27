@@ -7,6 +7,7 @@ use App\Http\Controllers\Api\Student\CourseController;
 use App\Http\Controllers\Api\Student\CourseWatchTimeAndProgressController;
 use App\Http\Controllers\Api\Student\InstractorController;
 use App\Http\Controllers\Api\Student\PaymentController;
+use App\Http\Controllers\Api\Student\StripeElementPaymentController;
 use App\Http\Controllers\Api\Student\SubscriptionController;
 use App\Http\Controllers\Api\Student\WatchListController;
 
@@ -52,6 +53,10 @@ Route::group(['middleware' => ['jwt.verify']], function () {
         Route::controller(PaymentController::class)->prefix('student')->group(function () {
             Route::post('/checkout', 'checkout');
             Route::post('/subscription-cancel', 'subscriptionCancel');
+        });
+
+        Route::controller(StripeElementPaymentController::class)->prefix('student')->group(function () {
+            Route::post('/element-checkout', 'checkout');
         });
     });
 
