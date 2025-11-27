@@ -121,4 +121,6 @@ class ProcessInstructorPayouts extends Command
 
         $this->info("Processed " . $payouts->count() . " Payouts.");
     }
+
+    
 }
